@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIHARA - Discover India's Hidden Gems</title>
+    
+    <!-- External CSS Files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- External JavaScript Files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/eed66195-312d-4eb3-9b47-6bc24edbf99b" alt="VIHARA" class="logo-img">
+            <span class="logo-text">VIHARA</span>
+        </div>
+        <div class="hamburger" id="hamburger">☰</div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-section active" data-section="home">
+            <h3>🏠 Home</h3>
+            <p>Welcome to VIHARA</p>
+        </div>
+        <div class="sidebar-section" data-section="destinations">
+            <h3>🗺️ Destinations</h3>
+            <p>Explore & Filter Zones</p>
+        </div>
+        <div class="sidebar-section" data-section="converter">
+            <h3>💱 Converter</h3>
+            <p>Currency & Units</p>
+        </div>
+        <div class="sidebar-section" data-section="chatbot">
+            <h3>🤖 AI Chatbot</h3>
+            <p>Travel Assistant</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Home Section -->
+        <div class="content-section active" id="home">
+            <div class="hero">
+                <h1>VIHARA</h1>
+                <p class="tagline">Wander the Unseen. Discover the Soul of Bharat.</p>
+                <p class="subtagline">Authentic Experiences. Budget Smart. Off-Beat Adventures.</p>
+            </div>
+            <div style="text-align: center; padding: 3rem; position: relative; z-index: 1;">
+                <div style="margin-bottom: 2rem; display: flex; justify-content: center;">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/eed66195-312d-4eb3-9b47-6bc24edbf99b" alt="VIHARA Logo" style="width: 120px; height: 120px; border-radius: 12px; box-shadow: 0 4px 20px rgba(250, 196, 150, 0.3);">
+                </div>
+                <h2 style="color: var(--accent-gold); margin-bottom: 1rem;">Welcome to VIHARA</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Discover hidden gems across India with AI-powered recommendations, smart filters by zones, and budget-friendly travel options. Explore authentic experiences, connect with fellow travelers, and create unforgettable memories.
+                </p>
+                <button class="filter-btn" onclick="switchSection('destinations')" style="max-width: 200px; margin-left: auto; margin-right: auto;">Start Exploring →</button>
+            </div>
+        </div>
+
+        <!-- Destinations Section -->
+        <div class="content-section" id="destinations">
+            <h1 style="color: var(--text-light); margin-bottom: 1rem;">🗺️ Explore Destinations</h1>
+            
+            <!-- Step 1: Select State -->
+            <div class="zones-hierarchy" id="step1">
+                <div class="zones-step">
+                    <h3>📍 Step 1: Select State</h3>
+                    <div class="zones-bubble-container" id="stateContainer">
+                        <!-- States will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Select Sub-Zones -->
+            <div class="zones-hierarchy hidden-section" id="step2">
+                <div class="breadcrumb">
+                    Selected State: <span id="selectedStateName">-</span>
+                </div>
+                <button class="btn-back" onclick="backToStates()">← Back to States</button>
+                <div class="zones-step">
+                    <h3>🎯 Step 2: Select Sub-Zones</h3>
+                    <div class="zones-list-container" id="subZoneContainer">
+                        <!-- Sub-zones will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zones Map -->
+            <div class="zones-map-container" id="mapContainer">
+                <h3>📍 Interactive Map & Your Location</h3>
+                <div class="location-status" id="locationStatus">
+                    <span id="locationText">📍 Click "Get My Location" to show your position on the map</span>
+                </div>
+                <div class="map-controls">
+                    <button class="map-btn" onclick="getUserLocation()">📍 Get My Location</button>
+                    <button class="map-btn" onclick="centerMapOnIndia()">🇮🇳 Center on India</button>
+                    <button class="map-btn" onclick="toggleDestinations()">🎯 Show Destinations</button>
+                </div>
+                <div id="zonesMap"></div>
+                <div id="locationMsg" class="location-info-box" style="display: none;"></div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-container">
+                <div class="filters-title">🔍 Smart Filters</div>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Activity Type</label>
+                        <select id="activityFilter">
+                            <option value="">All Activities</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="nature">Nature</option>
+                            <option value="photography">Photography</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Duration</label>
+                        <select id="durationFilter">
+                            <option value="">Any Duration</option>
+                            <option value="short">Short (1-3 days)</option>
+                            <option value="medium">Medium (4-7 days)</option>
+                            <option value="long">Long (8+ days)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Transportation</label>
+                        <select id="transportFilter">
+                            <option value="">All Modes</option>
+                            <option value="train">Train</option>
+                            <option value="bus">Bus</option>
+                            <option value="flight">Flight</option>
+                            <option value="local">Local Transport</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Accommodation</label>
+                        <select id="accommodationFilter">
+                            <option value="">All Types</option>
+                            <option value="budget">Budget</option>
+                            <option value="midrange">Mid-Range</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Daily Budget (₹)</label>
+                        <input type="number" id="budgetFilter" placeholder="Max budget" min="100">
+                    </div>
+                    <button class="filter-btn" onclick="applyFilters()">Apply Filters</button>
+                </div>
+            </div>
+
+            <!-- Destinations Grid -->
+            <div class="destinations-grid" id="destinationsGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Converter Section -->
+        <div class="content-section" id="converter">
+            <div class="converter-container">
+                <h1 class="converter-title">💱 Universal Converter</h1>
+                
+                <!-- Converter Tabs -->
+                <div class="converter-tabs">
+                    <button class="converter-tab-btn active" onclick="switchConverterTab('currency')">💰 Currency</button>
+                    <button class="converter-tab-btn" onclick="switchConverterTab('distance')">📏 Distance</button>
+                    <button class="converter-tab-btn" onclick="switchConverterTab('temperature')">🌡️ Temperature</button>
+                    <button class="converter-tab-btn" onclick="switchConverterTab('weight')">⚖️ Weight</button>
+                </div>
+
+                <!-- Currency Converter -->
+                <div class="converter-tab active" id="tab-currency">
+                    <div class="converter-grid">
+                        <div class="converter-section-header">Global Currency Exchange</div>
+                        <div class="converter-row">
+                            <div class="converter-item">
+                                <label>Amount (INR)</label>
+                                <input type="number" id="inrAmount" placeholder="Enter amount" value="1000" oninput="convertCurrency('inr')">
+                            </div>
+                            <div class="converter-result-full">
+                                <div class="result-item">
+                                    <span class="result-label">USD</span>
+                                    <span class="result-value" id="currencyUSD">$12.05</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">EUR</span>
+                                    <span class="result-value" id="currencyEUR">€11.11</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">GBP</span>
+                                    <span class="result-value" id="currencyGBP">£10.15</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">JPY</span>
+                                    <span class="result-value" id="currencyJPY">¥1,850</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distance Converter -->
+                <div class="converter-tab" id="tab-distance">
+                    <div class="converter-grid">
+                        <div class="converter-section-header">Distance & Length</div>
+                        <div class="converter-row">
+                            <div class="converter-item">
+                                <label>Kilometers (KM)</label>
+                                <input type="number" id="kmValue" placeholder="Enter KM" value="100" oninput="convertDistance('km')">
+                            </div>
+                            <div class="converter-result-full">
+                                <div class="result-item">
+                                    <span class="result-label">Miles</span>
+                                    <span class="result-value" id="distanceMiles">62.14 mi</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Meters</span>
+                                    <span class="result-value" id="distanceMeters">100,000 m</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Feet</span>
+                                    <span class="result-value" id="distanceFeet">328,084 ft</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Nautical Miles</span>
+                                    <span class="result-value" id="distanceNautical">54.00 nm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature Converter -->
+                <div class="converter-tab" id="tab-temperature">
+                    <div class="converter-grid">
+                        <div class="converter-section-header">Temperature Conversion</div>
+                        <div class="converter-row">
+                            <div class="converter-item">
+                                <label>Celsius (°C)</label>
+                                <input type="number" id="celsiusValue" placeholder="Enter °C" value="25" oninput="convertTemp('celsius')">
+                            </div>
+                            <div class="converter-result-full">
+                                <div class="result-item">
+                                    <span class="result-label">Fahrenheit</span>
+                                    <span class="result-value" id="tempFahrenheit">77.0°F</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Kelvin</span>
+                                    <span class="result-value" id="tempKelvin">298.15 K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weight Converter -->
+                <div class="converter-tab" id="tab-weight">
+                    <div class="converter-grid">
+                        <div class="converter-section-header">Weight & Mass</div>
+                        <div class="converter-row">
+                            <div class="converter-item">
+                                <label>Kilograms (KG)</label>
+                                <input type="number" id="kgValue" placeholder="Enter KG" value="70" oninput="convertWeight('kg')">
+                            </div>
+                            <div class="converter-result-full">
+                                <div class="result-item">
+                                    <span class="result-label">Pounds</span>
+                                    <span class="result-value" id="weightPounds">154.32 lbs</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Grams</span>
+                                    <span class="result-value" id="weightGrams">70,000 g</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Ounces</span>
+                                    <span class="result-value" id="weightOunces">2,469.11 oz</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Stones</span>
+                                    <span class="result-value" id="weightStones">11.02 st</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chatbot Section -->
+        <div class="content-section" id="chatbot">
+            <div class="chatbot-container">
+                <h1 class="chatbot-title">🤖 AI Travel Assistant</h1>
+                <div class="chat-box" id="chatBox">
+                    <div class="chat-message bot">👋 Hello! I'm VIHARA's AI assistant. Ask me about destinations, budget tips, activities, or anything about travel in India!</div>
+                </div>
+                <div class="chat-input-group">
+                    <input type="text" id="chatInput" placeholder="Ask about hidden gems, budget travel, adventures..." onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- External JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
