@@ -68,7 +68,6 @@
             font-size: 1.8rem;
             cursor: pointer;
             color: var(--accent-gold);
-            display: none;
             background: none;
             border: none;
             padding: 0;
@@ -79,23 +78,46 @@
             color: #FFD9A8;
         }
 
-        /* Sidebar - Fixed */
+        .hamburger.active {
+            color: #FFD9A8;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Sidebar - Hidden by default, shows on menu click */
         .sidebar {
             width: 280px;
             background: rgba(19, 66, 82, 0.98);
             border-right: 2px solid var(--accent-gold);
-            height: calc(100vh - 60px);
+            height: 100vh;
             position: fixed;
             left: 0;
-            top: 60px;
-            padding: 2rem 0;
+            top: 0;
+            padding: 6rem 0 2rem 0;
             overflow-y: auto;
             transition: transform 0.3s ease;
             z-index: 999;
+            transform: translateX(-100%);
         }
 
-        .sidebar.hidden {
-            transform: translateX(-100%);
+        .sidebar.active {
+            transform: translateX(0);
         }
 
         .sidebar-section {
@@ -131,10 +153,15 @@
 
         /* Main Container */
         .main-container {
-            margin-left: 280px;
+            margin-left: 0;
             margin-top: 60px;
             min-height: calc(100vh - 60px);
             padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-container.with-sidebar {
+            margin-left: 280px;
         }
 
         /* Content Sections */
@@ -278,10 +305,59 @@
         }
 
         #zonesMap {
-            height: 400px;
+            height: 500px;
             border-radius: 8px;
             margin-bottom: 1rem;
             border: 1px solid var(--accent-gold);
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .map-btn {
+            padding: 0.6rem 1.2rem;
+            background: rgba(250, 196, 150, 0.2);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .map-btn:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        .map-btn.active {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        .location-status {
+            padding: 1rem;
+            background: rgba(19, 66, 82, 0.3);
+            border-left: 3px solid var(--accent-gold);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .location-status.active {
+            border-left-color: var(--success-green);
+            color: var(--success-green);
+        }
+
+        .location-status.error {
+            border-left-color: var(--error-red);
+            color: var(--error-red);
         }
 
         /* Filters */
@@ -776,6 +852,9 @@
         <div class="hamburger" id="hamburger">☰</div>
     </div>
 
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-section active" data-section="home">
@@ -844,8 +923,16 @@
             </div>
 
             <!-- Zones Map -->
-            <div class="zones-map-container" id="mapContainer" style="display: none;">
-                <h3>📍 Zones Map</h3>
+            <div class="zones-map-container" id="mapContainer">
+                <h3>📍 Interactive Map & Your Location</h3>
+                <div class="location-status" id="locationStatus">
+                    <span id="locationText">📍 Click "Get My Location" to show your position on the map</span>
+                </div>
+                <div class="map-controls">
+                    <button class="map-btn" onclick="getUserLocation()">📍 Get My Location</button>
+                    <button class="map-btn" onclick="centerMapOnIndia()">🇮🇳 Center on India</button>
+                    <button class="map-btn" onclick="toggleDestinations()">🎯 Show Destinations</button>
+                </div>
                 <div id="zonesMap"></div>
                 <div id="locationMsg" class="location-info-box" style="display: none;"></div>
             </div>
@@ -1274,17 +1361,32 @@
         const hamburger = document.getElementById('hamburger');
         const sidebar = document.getElementById('sidebar');
 
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        let mapInstance = null;
+        let userMarker = null;
+        let destinationMarkers = [];
+
+        // Sidebar Toggle
         hamburger.addEventListener('click', function(e) {
             e.stopPropagation();
-            sidebar.classList.toggle('hidden');
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
         });
 
-        document.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
-                    sidebar.classList.add('hidden');
-                }
-            }
+        sidebarOverlay.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Close sidebar when clicking menu items
+        document.querySelectorAll('.sidebar-section').forEach(section => {
+            section.addEventListener('click', function(e) {
+                hamburger.classList.remove('active');
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
         });
 
         function switchSection(sectionId) {
@@ -1465,6 +1567,159 @@
             }, 300);
 
             input.value = '';
+        }
+
+        // ===== MAP INITIALIZATION & GPS =====
+        function initializeMap() {
+            if (mapInstance) return;
+            
+            // Initialize Leaflet map centered on India
+            mapInstance = L.map('zonesMap').setView([20.5937, 78.9629], 5);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(mapInstance);
+            
+            // Add destination markers
+            destinations.forEach(dest => {
+                const marker = L.circleMarker([dest.lat, dest.lng], {
+                    radius: 8,
+                    fillColor: '#FAC496',
+                    color: '#134252',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(mapInstance);
+                
+                marker.bindPopup(`
+                    <div style="color: #134252; font-weight: bold;">
+                        ${dest.emoji} ${dest.name}<br/>
+                        <span style="font-size: 0.9rem;">₹${dest.budget}/day</span>
+                    </div>
+                `, {className: 'custom-popup'});
+                
+                destinationMarkers.push(marker);
+            });
+            
+            // Add state boundaries (simplified)
+            Object.keys(statesData).forEach(state => {
+                const bounds = statesData[state].coords;
+                const rect = L.rectangle(bounds, {
+                    color: '#FAC496',
+                    weight: 2,
+                    opacity: 0.3,
+                    fill: true,
+                    fillColor: '#134252',
+                    fillOpacity: 0.1
+                }).addTo(mapInstance);
+                
+                rect.bindPopup(`<strong>${state}</strong>`);
+            });
+        }
+
+        function getUserLocation() {
+            const locationStatus = document.getElementById('locationStatus');
+            const locationText = document.getElementById('locationText');
+            
+            if (!navigator.geolocation) {
+                locationStatus.classList.add('error');
+                locationText.textContent = '❌ Geolocation not supported by your browser';
+                return;
+            }
+            
+            locationText.textContent = '⏳ Getting your location...';
+            locationStatus.classList.remove('error', 'active');
+            
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const accuracy = position.coords.accuracy;
+                    
+                    if (!mapInstance) initializeMap();
+                    
+                    // Remove old user marker
+                    if (userMarker) mapInstance.removeLayer(userMarker);
+                    
+                    // Add new user marker
+                    userMarker = L.circleMarker([lat, lng], {
+                        radius: 10,
+                        fillColor: '#00C853',
+                        color: '#fff',
+                        weight: 3,
+                        opacity: 1,
+                        fillOpacity: 0.9
+                    }).addTo(mapInstance);
+                    
+                    // Add accuracy circle
+                    L.circle([lat, lng], {
+                        radius: accuracy,
+                        color: '#00C853',
+                        weight: 1,
+                        opacity: 0.3,
+                        fillColor: '#00C853',
+                        fillOpacity: 0.1
+                    }).addTo(mapInstance);
+                    
+                    userMarker.bindPopup(`
+                        <div style="color: #134252; font-weight: bold;">
+                            📍 Your Location<br/>
+                            <span style="font-size: 0.85rem;">Accuracy: ±${Math.round(accuracy)}m</span>
+                        </div>
+                    `, {className: 'custom-popup'});
+                    
+                    mapInstance.setView([lat, lng], 10);
+                    
+                    // Update status
+                    locationStatus.classList.add('active');
+                    locationText.textContent = `✅ Your location found! Latitude: ${lat.toFixed(4)}, Longitude: ${lng.toFixed(4)}`;
+                },
+                function(error) {
+                    locationStatus.classList.add('error');
+                    let errorMsg = '❌ Unable to get location';
+                    
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMsg = '❌ Location permission denied. Enable in browser settings.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMsg = '❌ Location information unavailable.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMsg = '❌ Location request timeout.';
+                            break;
+                    }
+                    
+                    locationText.textContent = errorMsg;
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        function centerMapOnIndia() {
+            if (!mapInstance) initializeMap();
+            mapInstance.setView([20.5937, 78.9629], 5);
+        }
+
+        function toggleDestinations() {
+            if (!mapInstance) initializeMap();
+            
+            const btn = event.target;
+            btn.classList.toggle('active');
+            
+            if (btn.classList.contains('active')) {
+                destinationMarkers.forEach(marker => marker.setStyle({fillOpacity: 0.9}));
+                btn.textContent = '🎯 Hide Destinations';
+            } else {
+                destinationMarkers.forEach(marker => marker.setStyle({fillOpacity: 0.3}));
+                btn.textContent = '🎯 Show Destinations';
+            }
         }
 
         // Initialize
