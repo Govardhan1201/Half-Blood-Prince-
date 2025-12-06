@@ -62,6 +62,24 @@
             background-clip: text;
             cursor: pointer;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(250, 196, 150, 0.3);
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, var(--accent-gold), #FFD9A8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hamburger {
@@ -187,12 +205,29 @@
             border-bottom: 2px solid var(--accent-gold);
             margin-bottom: 3rem;
             border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: url('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/eed66195-312d-4eb3-9b47-6bc24edbf99b') no-repeat center;
+            background-size: contain;
+            opacity: 0.1;
+            z-index: 0;
         }
 
         .hero h1 {
             font-size: 3rem;
             color: var(--text-light);
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .hero .tagline {
@@ -848,7 +883,10 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="logo">🗺️ VIHARA</div>
+        <div class="logo">
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/eed66195-312d-4eb3-9b47-6bc24edbf99b" alt="VIHARA" class="logo-img">
+            <span class="logo-text">VIHARA</span>
+        </div>
         <div class="hamburger" id="hamburger">☰</div>
     </div>
 
@@ -885,7 +923,10 @@
                 <p class="tagline">Wander the Unseen. Discover the Soul of Bharat.</p>
                 <p class="subtagline">Authentic Experiences. Budget Smart. Off-Beat Adventures.</p>
             </div>
-            <div style="text-align: center; padding: 3rem;">
+            <div style="text-align: center; padding: 3rem; position: relative; z-index: 1;">
+                <div style="margin-bottom: 2rem; display: flex; justify-content: center;">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/eed66195-312d-4eb3-9b47-6bc24edbf99b" alt="VIHARA Logo" style="width: 120px; height: 120px; border-radius: 12px; box-shadow: 0 4px 20px rgba(250, 196, 150, 0.3);">
+                </div>
                 <h2 style="color: var(--accent-gold); margin-bottom: 1rem;">Welcome to VIHARA</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
                     Discover hidden gems across India with AI-powered recommendations, smart filters by zones, and budget-friendly travel options. Explore authentic experiences, connect with fellow travelers, and create unforgettable memories.
