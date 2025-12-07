@@ -57,11 +57,11 @@
             </div>
             <div style="text-align: center; padding: 3rem; position: relative; z-index: 1;">
                 <div style="margin-bottom: 2rem; display: flex; justify-content: center;">
-                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/eed66195-312d-4eb3-9b47-6bc24edbf99b" alt="VIHARA Logo" style="width: 120px; height: 120px; border-radius: 12px; box-shadow: 0 4px 20px rgba(250, 196, 150, 0.3);">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/eed66195-312d-4eb3-9b47-6bc24edbf99b" alt="VIHARA Logo" style="width: 120px; height: 120px; border-radius: 50%; box-shadow: 0 2px 8px rgba(250, 196, 150, 0.3);">
                 </div>
                 <h2 style="color: var(--accent-gold); margin-bottom: 1rem;">Welcome to VIHARA</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    Discover hidden gems across India with AI-powered recommendations, smart filters by zones, and budget-friendly travel options. Explore authentic experiences, connect with fellow travelers, and create unforgettable memories.
+                    Discover hidden gems across India with AI-powered recommendations, smart filters by zones, and budget-friendly travel options. Explore authentic experiences, connect with fellow travelers, and plan the ultimate off-beat journey!
                 </p>
                 <button class="filter-btn" onclick="switchSection('destinations')" style="max-width: 200px; margin-left: auto; margin-right: auto;">Start Exploring →</button>
             </div>
@@ -312,6 +312,15 @@
         </div>
 
     </div>
+
+    <!-- ==== DESTINATION DESCRIPTION POPUP ==== -->
+    <div id="descriptionPopupOverlay" class="desc-popup-overlay" style="display: none;">
+      <div class="desc-popup-box" id="descriptionPopupBox">
+        <button class="desc-popup-close" onclick="closeDescriptionPopup()">&times;</button>
+        <div id="descriptionPopupContent"></div>
+      </div>
+    </div>
+    <!-- ==== END POPUP ==== -->
 
     <!-- External JavaScript File -->
     <script src="script.js"></script>
