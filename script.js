@@ -14,70 +14,265 @@ const statesData = {
     'Telangana': {
         coords: [[15.5, 78.0], [19.0, 81.5]],
         color: '#e74c3c',
-        subZones: ['Hyderabad Zone', 'Warangal Zone', 'Khammam Zone', 'Mahbubnagar Zone']
+        subZones: ['Hyderabad', 'Warangal', 'Khammam', 'Mahbubnagar']
     },
     'Rajasthan': {
         coords: [[23.0, 72.0], [28.5, 78.5]],
         color: '#f39c12',
-        subZones: ['Jaipur Zone', 'Jodhpur Zone', 'Udaipur Zone', 'Bikaner Zone', 'Pushkar Zone']
+        subZones: ['Dhundhar', 'Thar', 'Aaravali', 'Mewar', 'Shikawati']
     },
     'Goa': {
         coords: [[14.5, 73.5], [15.5, 74.0]],
         color: '#2ecc71',
-        subZones: ['North Goa', 'South Goa', 'Coastal Zone']
+        subZones: ['North Goa', 'South Goa', 'Central Zone']
     }
 };
 
 // ===== DESTINATIONS DATA =====
 const destinations = [
     {
-        name: "Vizag Beach", state: "Andhra Pradesh", subZone: "Vizag",
-        desc: "Beautiful coastal city with beaches", lat: 17.6869, lng: 83.2185,
-        activity: "nature", duration: "short", transport: "flight",
-        accommodation: "midrange", budget: 1000, tags: ["Beach", "Nature"], emoji: "🏖️"
+        name: "Bheemunipatnam Beach", state: "Andhra Pradesh", subZone: "Vizag",
+        desc: "Has a beautiful coast",
+        activity: "nature", duration: "short", transport: "Bus/Local Transport",
+        accommodation: "midrange", budget: 500, tags: ["Beach", "Nature"], emoji: "🏖️",
+        mapLink: "https://maps.app.goo.gl/gVnZafAzR1DRoGrj8?g_st=ac",
+        imageLink: "https://timesofindia.indiatimes.com/travel/destinations/explore-the-legends-of-bheemili-beach-and-its-dutch-connect/articleshow/69891298.cms",
+        videoLink: "https://www.youtube.com/watch?v=yUdR3SY0Rnc ",
     },
     {
         name: "Araku Valley", state: "Andhra Pradesh", subZone: "Araku",
-        desc: "Scenic hill station with tribal culture", lat: 18.3481, lng: 82.8005,
+        desc: "Scenic hill station with tribal culture",
         activity: "cultural", duration: "short", transport: "train",
-        accommodation: "budget", budget: 600, tags: ["Culture", "Nature"], emoji: "🏔️"
+        accommodation: "budget", budget: 2000, tags: ["Culture", "Nature"], emoji: "🏔️",
+        mapLink: "https://maps.app.goo.gl/7tbz8BcASRRSrBFG9?g_st=ac",
+        imageLink: "https://images.unsplash.com/photo-puri-beach",
+        videoLink: "https://www.youtube.com/embed/yourVideoID",
     },
     {
-        name: "Tirupati Temple", state: "Andhra Pradesh", subZone: "Chitoor",
-        desc: "Sacred temple in the hills", lat: 13.1939, lng: 79.8456,
-        activity: "cultural", duration: "short", transport: "train",
-        accommodation: "budget", budget: 500, tags: ["Religious", "Culture"], emoji: "🛕"
+        name: "Uppada Beach and Mangrove Villages", state: "Andhra Pradesh", subZone: "Vizag",
+        desc: "Scenic beaches and mangroves",
+        activity: "cultural", duration: "short", transport: "train/Bus",
+        accommodation: "budget", budget: 1000, tags: ["Nature", "Photography"], emoji: "🏖️",
+        mapLink: "https://maps.app.goo.gl/MRJGFUU2hiyyR2wk6?g_st=ac",
+        imageLink: "https://www.makemytrip.com/tripideas/attractions/uppada-beach",
+        videoLink: "https://www.youtube.com/watch?v=PtR4JfPg31A",
     },
     {
-        name: "Hyderabad City", state: "Telangana", subZone: "Hyderabad Zone",
-        desc: "Modern city with historical monuments", lat: 17.3850, lng: 78.4867,
-        activity: "cultural", duration: "medium", transport: "flight",
-        accommodation: "midrange", budget: 1100, tags: ["City", "Culture"], emoji: "🏙️"
+        name: "Bojjana Konda", state: "Andhra Pradesh", subZone: "Vizag",
+        desc: "Buddhist historical monuments", 
+        activity: "cultural", duration: "small", transport: "Bus/Local",
+        accommodation: "midrange", budget: 500, tags: ["Photography", "Culture"], emoji: "🏔️",
+        mapLink: "https://maps.app.goo.gl/W2yVmxgm6szKJmEx7?g_st=ac",
+        imageLink: "https://www.instagram.com/p/CZTKkfXp3c1/",
+        videoLink: "https://www.youtube.com/watch?v=a9yQ4tCOpdo ",
     },
     {
-        name: "Jaipur Pink City", state: "Rajasthan", subZone: "Jaipur Zone",
-        desc: "Historic pink city with palace", lat: 26.9124, lng: 75.7873,
-        activity: "cultural", duration: "medium", transport: "flight",
-        accommodation: "midrange", budget: 900, tags: ["Architecture", "History"], emoji: "🏰"
+        name: "Thotlakonda Buddhist Complex", state: "Andhra Pradesh", subZone: "Vizag",
+        desc: "Buddhist sites",
+        activity: "cultural", duration: "short", transport: "Bus/Local",
+        accommodation: "midrange", budget: 900, tags: ["Architecture", "History"], emoji: "🏔️",
+        mapLink: "https://maps.app.goo.gl/b8fzwz4ccu7zpzQF9?g_st=ac",
+        imageLink: "https://www.shutterstock.com/image-photo/thotlakonda-buddhist-complex-situated-on-hill-1260772333",
+        videoLink: "https://www.youtube.com/watch?v=JQ3OgoEXo3c",
     },
     {
-        name: "Jodhpur Fort", state: "Rajasthan", subZone: "Jodhpur Zone",
-        desc: "Majestic fort in the desert", lat: 26.2389, lng: 73.0243,
-        activity: "cultural", duration: "short", transport: "flight",
-        accommodation: "budget", budget: 800, tags: ["Fort", "Adventure"], emoji: "🏯"
+        name: "Ananthagiri Coffee Plantations", state: "Andhra Pradesh", subZone: "Araku",
+        desc: "Coffee Plantations", 
+        activity: "cultural", duration: "short", transport: "Local",
+        accommodation: "budget", budget: 800, tags: ["Nature", "Photography"], emoji: "🌿",
+        mapLink: "https://maps.app.goo.gl/1wGF61iwWn6qXMSNA?g_st=ac",
+        imageLink: "https://www.alamy.com/stock-photo/araku-valley-coffee-plantation.html",
+        videoLink: "https://www.youtube.com/shorts/g7I2LntKHOM?feature=share",
     },
     {
-        name: "Udaipur Palace", state: "Rajasthan", subZone: "Udaipur Zone",
-        desc: "Lake palace with romantic ambiance", lat: 24.5854, lng: 73.7125,
-        activity: "cultural", duration: "medium", transport: "flight",
-        accommodation: "luxury", budget: 1800, tags: ["Palace", "Romantic"], emoji: "💎"
+        name: "Padmapuram Botanical Garden", state: "Andhra Pradesh", subZone: "Araku",
+        desc: "Botanical Garden",
+        activity: "cultural", duration: "small", transport: "Local",
+        accommodation: "budget", budget: 1000, tags: ["Nature", "Photography"], emoji: "🌳",
+        mapLink: "https://maps.app.goo.gl/nMbuzdWpLeNVG5bz6?g_st=",
+        imageLink: "https://www.thehindu.com/news/cities/Visakhapatnam/padmapuram-botanical-gardens-in-araku-valley-reopened-with-new-attractions/article69151551.ece
+",
+        videoLink: "https://www.youtube.com/watch?v=F6fOWo833-M ",
     },
     {
-        name: "Goa Beaches", state: "Goa", subZone: "North Goa",
-        desc: "Tropical beaches with vibrant culture", lat: 15.2993, lng: 73.8243,
-        activity: "adventure", duration: "medium", transport: "flight",
-        accommodation: "midrange", budget: 1200, tags: ["Beach", "Party"], emoji: "🎉"
-    }
+        name: "Grand Canyon-Style Canyons: Gandikota", state: "Andhra Pradesh", subZone: "Rayalaseema",
+        desc: "Canyons", 
+        activity: "adventure", duration: "small", transport: "Local",
+        accommodation: "midrange", budget: 1000, tags: ["Adventure", "Photography"], emoji: "⛰️",
+        mapLink: "https://maps.app.goo.gl/MZDfnzFJsGN7FvJ97?g_st=ac",
+        imageLink: "https://naturewalkers.in/trek/gandikota-camping-belum-caves-lepakshi-temple-visit/",
+        videoLink: " https://www.youtube.com/watch?v=683c_aWrtRk ",
+    },
+     {
+        name: "Pristine Forest Trekking Maredumalli", state: "Andhra Pradesh", subZone: "Vizag",
+        desc: "Tropical forest with treckking",
+        activity: "adventure", duration: "small", transport: "Local",
+        accommodation: "midrange", budget: 800, tags: ["Adventure", "Nature"], emoji: "🌴",
+         mapLink: "https://maps.app.goo.gl/5j1857zqctCfrCpk8?g_st=ac",
+        imageLink: "https://www.tripadvisor.in/Attraction_Review-g1155908-d14042455-Reviews-Maredumilli-Rajahmundry_East_Godavari_District_Andhra_Pradesh.html
+",
+        videoLink: "https://www.facebook.com/livyoungphotography1/videos/sounds-of-maredumilli-east-godavari-district-andhra-pradesh/831314614200787/ 
+",
+    },
+ {
+        name: "Papikondalu", state: "Andhra Pradesh", subZone: "North Godavari",
+        desc: "Scenic Beauty with Boating", 
+        activity: "adventure", duration: "small", transport: "flight",
+        accommodation: "midrange", budget: 1200, tags: ["Adventure", "Nature"], emoji: "⛰️",
+        mapLink: "https://maps.app.goo.gl/t6mrc7xJYE3iMYwo7?g_st=ac",
+        imageLink: "https://papikondalu.net.in/",
+        videoLink: " https://www.youtube.com/watch?v=De-Mp57Jee4",
+    },
+ {
+        name: "Bobbili War Memorial", state: "Andhra Pradesh", subZone: "Vizianagaram",
+        desc: "War Memorial",
+        activity: "Photography", duration: "small", transport: "Bus/Local",
+        accommodation: "midrange", budget: 500, tags: ["Cultural", "Photography"], emoji: "🪖",
+        mapLink: "https://maps.app.goo.gl/FCPrKzz5zLdHAF7v9?g_st=ac",
+        imageLink: "https://www.justdial.com/Vizianagaram/War-Memorial-Pillar-Bobbili/9999P8922-8922-180606200201-E6X8_BZDET
+",
+        videoLink: "https://www.instagram.com/reel/DFMDOyzz-ph/",
+    },
+ {
+        name: "Penukonda Fort", state: "Andhra Pradesh", subZone: "South Rayalaseema",
+        desc: "Vizinagara Fort", 
+        activity: "adventure", duration: "low", transport: "Local",
+        accommodation: "midrange", budget: 1200, tags: ["Adventure", "Photography"], emoji: "🏦",
+        mapLink: "https://maps.app.goo.gl/Q83WM1CLUEPv12nJ6?g_st=ac",
+        imageLink: "https://www.incredibleindia.gov.in/en/andhra-pradesh/anantapur/penukonda-fort",
+        videoLink: "https://www.youtube.com/watch?v=DtIDZ6D76zo",
+    },
+ {
+        name: "Chorao Island", state: "Goa", subZone: "North Goa",
+        desc: "Tropical beaches with vibrant culture", 
+        activity: "adventure", duration: "small", transport: "flight",
+        accommodation: "midrange", budget: 1000, tags: ["Beach", "Party"], emoji: "🏝️",
+        mapLink: "https://maps.app.goo.gl/F3oxxoX8ifUVchY68?g_st=ac",
+        imageLink: "https://seawatersports.com/places/goa/chorao-island-in-goa",
+        videoLink: "https://www.youtube.com/watch?v=1bJMoSTs4rA",
+    },
+ {
+        name: "Corjuem Fort", state: "Goa", subZone: "North Goa",
+        desc: "Fort",
+        activity: "adventure", duration: "small", transport: "flight",
+        accommodation: "midrange", budget: 1000, tags: ["Beach", "Adventure"], emoji: "🏦",
+        mapLink: "https://maps.app.goo.gl/qtgfdvZhsx8i31V69?g_st=ac",
+        imageLink: "https://www.incredibleindia.gov.in/en/trips/trip-                                                                                                                                                                 listing/goa-unveiled-museums-forts-churches-and-beaches
+",
+        videoLink: "https://www.youtube.com/watch?v=JWewJqZ9Gro ",
+    },
+ {
+        name: "Usgalimal Rock Carvings", state: "Goa", subZone: "South Goa",
+        desc: "vibrant culture", 
+        activity: "culture", duration: "small", transport: "flight",
+        accommodation: "midrange", budget: 1200, tags: ["Photography", "Culture"], emoji: "🪨",
+        mapLink: "https://maps.app.goo.gl/T8m4N7bgdUmpSPo16?g_st=ac",
+        imageLink: "https://timesofindia.indiatimes.com/travel/destinations/unforgettable-goa-with-                                                                                                                             usgalimal-rock-carvings/articleshow/101644205.cms
+",
+        videoLink: " https://www.youtube.com/watch?v=WFDPnD3em4k",
+    },
+ {
+        name: "Cotigao Wildlife Sanctuary", state: "Goa", subZone: "South Goa",
+        desc: "Wildlife Sanctuary", 
+        activity: "adventure", duration: "small", transport: "flight",
+        accommodation: "midrange", budget: 700, tags: ["Adventure", "Nature"], emoji: "🫎",
+        mapLink: "https://maps.app.goo.gl/GWBxpCE8Pxxa8pbb8?g_st=ac",
+        imageLink: "https://www.thegoavilla.com/goa/distanation/cotigao-wildlife-sanctuary.html",
+        videoLink: "https://www.youtube.com/watch?v=U4oaqFheGYI ",
+    },
+ {
+        name: "Mandovi River Cruises", state: "Goa", subZone: "Central Zone",
+        desc: "Tropical beaches with vibrant culture", 
+        activity: "adventure", duration: "small", transport: "flight",
+        accommodation: "midrange", budget: 1200, tags: ["Beach", "Party"], emoji: "🛳️",
+        mapLink: "https://maps.app.goo.gl/5WnqRGC9HLvinsqR8?g_st=ac",
+        imageLink: "https://www.thrillophilia.com/tours/mandovi-boat-cruise-with-dinner
+",
+        videoLink: "https://www.youtube.com/watch?v=31Tp9vac1lU ",
+    },
+ {
+        name: "Qutubt Shah tombs", state: "Telengana", subZone: "Hyderabad",
+        desc: "Tropical beaches with vibrant culture",
+        activity: "culture", duration: "small", transport: "flight",
+        accommodation: "midrange", budget: 1200, tags: ["Culture", "Photography"], emoji: "🪦",
+        mapLink: "https://maps.app.goo.gl/8XhjEniLAdsD2L3r8?g_st=ac",
+        imageLink: "https://www.telegraphindia.com/my-kolkata/places/eighty-qutb-shahi-                                                                                                                           dynasty-structures-that-are-sure-to-take-your-breath-away/cid/2029698 
+",
+        videoLink: "https://www.youtube.com/watch?v=zJ-zSc8UN94 ",
+    },
+ {
+        name: "Eturnagaran lakes and jungle zone", state: "Telengana", subZone: "Warangal",
+        desc: "Adventure zone",
+        activity: "adventure", duration: "small", transport: "local",
+        accommodation: "budget", budget: 800, tags: ["Adventure", "Nature"], emoji: "🍁",
+        mapLink: "https://maps.app.goo.gl/c4o7y9euHwy2yhj86?g_st=ac",
+        imageLink: "https://bogatha.feriadoresorts.com/travel-inspiration-attractions-at-bogatha-                                                                                                                 waterfalls/
+",
+        videoLink: "https://www.youtube.com/watch?v=HeP8IPU4LcA  ",
+    },
+ {
+        name: "Mallela Theertham Waterfalls", state: "Telengana", subZone: "Khammam",
+        desc: "Tropical beaches with vibrant culture", 
+        activity: "adventure", duration: "small", transport: "Bus/local",
+        accommodation: "midrange", budget: 1200, tags: ["Beach", "Party"], emoji: "🤽",
+        mapLink: "https://maps.app.goo.gl/fRw8iyP1ZMWnEA99A?g_st=ac",
+        imageLink: "https://www.tripadvisor.in/Attraction_Review-g12389577-d7199477-Reviews-",
+        videoLink: " https://www.youtube.com/watch?v=3-dJtkQRbLA ",
+    },
+    {
+        name: "Nallamalla Forest", state: "Telengana", subZone: "Mahbubnagar",
+        desc: "Tropical beaches with vibrant culture", 
+        activity: "adventure", duration: "small", transport: "Bus/Loacal",
+        accommodation: "midrange", budget: 1200, tags: ["Nature", "Adventure"], emoji: "🍃",
+        mapLink: "https://maps.app.goo.gl/Rz8MNM8wRvjkhCum7?g_st=ac",
+        imageLink: "https://www.tripadvisor.in/Attraction_Review-g12389577-d7199477-Reviews- ",
+        videoLink: " https://www.youtube.com/watch?v=3-dJtkQRbLA ",
+    },
+    {
+        name: "Jaipur's Treaks", state: "Rajasthan", subZone: "Dhundhar",
+        desc: "Desert Forts",
+        activity: "adventure", duration: "medium", transport: "Train/Bus",
+        accommodation: "midrange", budget: 1200, tags: ["Nature", "Adventure"], emoji: "🏜️",
+        mapLink: "https://maps.app.goo.gl/hTa8yDPJMaagmc259?g_st=ac",
+        imageLink: "https://share.google/cz39yT0ZNZ7zJmhr4",
+        videoLink: "https://share.google/JPo0caAzCUPf7rM0B",
+    },
+ {
+        name: "Khuri", state: "Rajasthan", subZone: "Thar",
+        desc: "Hot Desert",
+        activity: "adventure", duration: "medium", transport: "Local",
+        accommodation: "midrange", budget: 1200, tags: ["Nature", "Adventure"], emoji: "🐫",
+        mapLink: "https://maps.app.goo.gl/XnGKvM5pi3tqa16a9?g_st=ac",
+        imageLink: "https://images.unsplash.com/photo-puri-beach",
+        videoLink: "https://www.youtube.com/embed/yourVideoID",
+    },
+     {
+        name: "Kumbhalgarh", state: "Rajasthan", subZone: "Aaravali",
+        desc: "Mountains and wildlife",
+        activity: "adventure", duration: "medium", transport: "Local",
+        accommodation: "midrange", budget: 1200, tags: ["Nature", "Adventure"], emoji: "🌵",
+        mapLink: "https://maps.app.goo.gl/3SBBdUXb5W38HhuE8?g_st=ac",
+        imageLink: "https://www.tourism.rajasthan.gov.in/rajsamand.html",
+        videoLink: "https://www.youtube.com/watch?v=DBg24dG48WQ ",
+    },
+     {
+        name: "Bahubali Hills", state: "Rajasthan", subZone: "Mewar",
+        desc: "Mountains",
+        activity: "adventure", duration: "medium", transport: "Local",
+        accommodation: "midrange", budget: 1200, tags: ["Nature", "Adventure"], emoji: "🏜️",
+        mapLink: "https://maps.app.goo.gl/SW2REqcuXU2Eq4EV6?g_st=ac",
+        imageLink: "https://www.thrillophilia.com/attractions/bahubali-hills-udaipur",
+        videoLink: "https://www.youtube.com/watch?v=mLGshcymyXc",
+    },
+     {
+        name: "Mahansar", state: "Rajasthan", subZone: "Shikawati",
+        desc: "Painted Havelis",
+        activity: "adventure", duration: "medium", transport: "Local",
+        accommodation: "midrange", budget: 1200, tags: ["Photography", "Nature"], emoji: "🐫",
+        mapLink: "https://maps.app.goo.gl/Ymyj5fyq9cuJXE4c6?g_st=ac",
+        imageLink: "https://timesofindia.indiatimes.com/travel/destinations/mahansar/articleshow/5649624",
+        videoLink: "https://www.youtube.com/watch?v=tRSL9Und-xk",
+    },
 ];
 
 // ===== GLOBAL VARIABLES =====
